@@ -6,4 +6,5 @@
 //
 
 import Foundation
+// Defines an empty response model to handle responses with no content
 public struct EmptyResponse: Decodable {}

@@ -1,4 +1,3 @@
-
 # APIManager
 
 `APIManager` is a Swift package for handling network requests. It provides a simple interface for making HTTP GET, POST, PUT, and DELETE requests, and handling JSON responses.
@@ -18,7 +17,7 @@ To install `APIManager` using Swift Package Manager, add the following dependenc
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/yourusername/APIManager.git", from: "1.0.0")
+    .package(url: "https://github.com/arodriguezp2003/swiftpackage-apimanager.git", from: "1.0.0")
 ]
 ```
 
@@ -123,9 +122,9 @@ APIManager.shared.delete(path: "users/1") { (result: Result<EmptyResponse, APIEr
 public enum APIError: Error, CustomStringConvertible {
     case invalidURL
     case noData
-    case decodingError(Error)
+    case decodingError(Error, Data?)
     case networkError(Error)
-    case httpError(Int)
+    case httpError(Int, String?)
     case unauthorized
     case unknownError
 
@@ -135,12 +134,16 @@ public enum APIError: Error, CustomStringConvertible {
             return "The URL provided was invalid."
         case .noData:
             return "No data was received from the server."
-        case .decodingError(let error):
-            return "There was an error decoding the data: \(error.localizedDescription)"
+        case .decodingError(let error, let data):
+            var message = "There was an error decoding the data: \(error.localizedDescription)"
+            if let data = data, let jsonString = String(data: data, encoding: .utf8) {
+                message += "\nFailed JSON: \(jsonString)"
+            }
+            return message
         case .networkError(let error):
             return "There was a network error: \(error.localizedDescription)"
-        case .httpError(let statusCode):
-            return "HTTP error with status code: \(statusCode)"
+        case .httpError(let statusCode, let message):
+            return "HTTP error with status code: \(statusCode). Message: \(message ?? "No message available")"
         case .unauthorized:
             return "Session expired. Please log in again."
         case .unknownError:
@@ -153,4 +156,3 @@ public enum APIError: Error, CustomStringConvertible {
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-

@@ -1,6 +1,6 @@
 # APIManager
 
-`APIManager` is a Swift package for handling network requests. It provides a simple interface for making HTTP GET, POST, PUT, and DELETE requests, and handling JSON responses.
+`APIManager` is a Swift package for handling network requests. It provides a simple interface for making HTTP GET, POST, PUT, and DELETE requests, and handling JSON responses :).
 
 ## Features
 
